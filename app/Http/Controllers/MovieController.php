@@ -71,10 +71,9 @@ class MovieController extends Controller
 
         $movie->id_user = $request->id_user;
 
-        if ($image = $request->file('image')) {
-            $pathImage = 'image/';
-            $posterMovie = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($pathImage, $posterMovie);
+        if ($request->hasFile('image')) {
+            $posterMovie = date('YmdHis') . "." . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->storeAs('images', $posterMovie, 'public');
             $movie["image"] = "$posterMovie";
         }
 
@@ -137,10 +136,9 @@ class MovieController extends Controller
         $movie->premiered = $request->premiered;
         $movie->summary = $request->summary;
 
-        if ($image = $request->file('image')) {
-            $pathImage = 'image/';
-            $posterMovie = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($pathImage, $posterMovie);
+        if ($request->hasFile('image')) {
+            $posterMovie = date('YmdHis') . "." . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->storeAs('images', $posterMovie, 'public');
             $movie["image"] = "$posterMovie";
         } else {
             unset($movie["image"]);
